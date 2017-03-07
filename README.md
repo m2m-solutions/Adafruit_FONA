@@ -1,7 +1,7 @@
-# Fork of Adafruit FONA Library
+# SIM868 support for the Adafruit FONA Library
 
 This is a fork of the Adafruit FONA library to support the SIMComm SIM868 module.
-
+Adapted by Jonny Bergdahl for M2M Solutions AB.
 
 **This library requires Arduino v1.0.6 or higher**
 
