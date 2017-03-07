@@ -32,6 +32,8 @@
 #define FONA3G_A 4
 #define FONA3G_E 5
 
+#define SIM868 128
+
 // Uncomment to changed the preferred SMS storage
 //#define FONA_PREF_SMS_STORAGE "SM"
 

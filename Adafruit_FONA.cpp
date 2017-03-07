@@ -109,6 +109,8 @@ boolean Adafruit_FONA::begin(Stream &port) {
     _type = FONA3G_A;
   } else if (prog_char_strstr(replybuffer, (prog_char *)F("SIMCOM_SIM5320E")) != 0) {
     _type = FONA3G_E;
+  } else if (prog_char_strstr(replybuffer, (prog_char *F("SIM868 R14")) != 0) {
+    _type = SIM868;
   }
 
   if (_type == FONA800L) {
@@ -722,7 +724,7 @@ boolean Adafruit_FONA::enableGPS(boolean onoff) {
 
   // first check if its already on or off
 
-  if (_type == FONA808_V2) {
+  if (_type == FONA808_V2 || _type == SIM868) {
     if (! sendParseReply(F("AT+CGNSPWR?"), F("+CGNSPWR: "), &state) )
       return false;
   } else {
@@ -731,7 +733,7 @@ boolean Adafruit_FONA::enableGPS(boolean onoff) {
   }
 
   if (onoff && !state) {
-    if (_type == FONA808_V2) {
+    if (_type == FONA808_V2 || SIM868) {
       if (! sendCheckReply(F("AT+CGNSPWR=1"), ok_reply))  // try GNS command
 	return false;
     } else {
@@ -772,7 +774,7 @@ boolean Adafruit_FONA_3G::enableGPS(boolean onoff) {
 }
 
 int8_t Adafruit_FONA::GPSstatus(void) {
-  if (_type == FONA808_V2) {
+  if (_type == FONA808_V2 || type == SIM868) {
     // 808 V2 uses GNS commands and doesn't have an explicit 2D/3D fix status.
     // Instead just look for a fix and if found assume it's a 3D fix.
     getReply(F("AT+CGNSINF"));
@@ -934,7 +936,7 @@ boolean Adafruit_FONA::getGPS(float *lat, float *lon, float *speed_kph, float *h
 
     *lon = degrees;
 
-  } else if (_type == FONA808_V2) {
+  } else if (_type == FONA808_V2 || _type == SIM868) {
     // Parse 808 V2 response.  See table 2-3 from here for format:
     // http://www.adafruit.com/datasheets/SIM800%20Series_GNSS_Application%20Note%20V1.00.pdf
 
@@ -1115,7 +1117,7 @@ boolean Adafruit_FONA::enableGPSNMEA(uint8_t i) {
   i %= 10;
   sendbuff[13] = i + '0';
 
-  if (_type == FONA808_V2) {
+  if (_type == FONA808_V2 || _type == SIM868) {
     if (i)
       return sendCheckReply(F("AT+CGNSTST=1"), ok_reply);
     else
