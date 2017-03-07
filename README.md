@@ -1,4 +1,7 @@
-# Adafruit FONA Library [![Build Status](https://secure.travis-ci.org/adafruit/Adafruit_FONA_Library.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_FONA_Library)
+# Fork of Adafruit FONA Library
+
+This is a fork of the Adafruit FONA library to support the SIMComm SIM868 module.
+
 
 **This library requires Arduino v1.0.6 or higher**
 
