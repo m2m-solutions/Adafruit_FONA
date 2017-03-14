@@ -1195,8 +1195,16 @@ boolean Adafruit_FONA::enableGPRS(boolean onoff) {
     }
 
     // open GPRS context
-    if (! sendCheckReply(F("AT+SAPBR=1,1"), ok_reply, 30000))
-      return false;
+    if (_type == SIM868)
+    {
+      if (!sendCheckReply(F("At+CGATT:1"), ok_reply, 30000))
+        return false;      
+    }
+    else
+    {
+      if (! sendCheckReply(F("AT+SAPBR=1,1"), ok_reply, 30000))
+         return false;
+    }    
 
     // bring up wireless connection
     if (! sendCheckReply(F("AT+CIICR"), ok_reply, 10000))
