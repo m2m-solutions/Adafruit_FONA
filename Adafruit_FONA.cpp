@@ -758,13 +758,13 @@ boolean Adafruit_FONA_3G::enableGPS(boolean onoff) {
   uint16_t state;
 
   // first check if its already on or off
-  //if (! Adafruit_FONA::sendParseReply(F("AT+CGPS?"), F("+CGPS: "), &state) )
-    //return false;
+  if (! Adafruit_FONA::sendParseReply(F("AT+CGPS?"), F("+CGPS: "), &state) )
+    return false;
 
-  if (onoff /*&& !state*/) {
+  if (onoff && !state) {
     if (! sendCheckReply(F("AT+CGPS=1"), ok_reply))
       return false;
-  } else if (!onoff/* && state*/) {
+  } else if (!onoff && state) {
     if (! sendCheckReply(F("AT+CGPS=0"), ok_reply))
       return false;
     // this takes a little time
